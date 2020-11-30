@@ -19,11 +19,11 @@ class mov_snake():
         self.window.title("Snake")
         self.canvas = Canvas(self.window , bg='alice blue', width = size , height= size)
         self.snake = self.canvas.create_rectangle(120, 120 ,150, 150, fill='Black')
-        #MOUSE COORDINATES
+        #APPLE COORDINATES
         self.coordinates= []
         #SNAKE BODY+HEAD COORDINATES
         self.my_variables=[self.canvas.coords(self.snake)]
-        self.mouse =self.canvas.create_rectangle(self.mouse_coordinates() , fill =colour)
+        self.apple =self.canvas.create_rectangle(self.apple_coordinates() , fill =colour)
         self.canvas.pack()
 
         self.x = 0
@@ -52,7 +52,7 @@ class mov_snake():
         self.snake = self.canvas.create_rectangle(120, 120, 150, 150, fill='Black') 
         self.coordinates= []
         self.my_variables=[self.canvas.coords(self.snake)]
-        self.mouse =self.canvas.create_rectangle(self.mouse_coordinates() , fill =colour)
+        self.apple =self.canvas.create_rectangle(self.apple_coordinates() , fill =colour)
         self.canvas.pack()
         self.x = 0
         self.y = 0
@@ -72,7 +72,7 @@ class mov_snake():
         for i in range(0, 9):
             self.canvas.create_line(0, (i+1)*(snake_width), size, (i+1)*(snake_width))
         
-    def mouse_coordinates(self):
+    def apple_coordinates(self):
         list1 = [(i*(snake_width), j*(snake_width)) for i in range(0, int(size/snake_width)) for j in range(0,int(size/snake_width))]
         for i in self.my_variables:
             if (i[0],i[1]) in list1:
@@ -141,7 +141,7 @@ class mov_snake():
             self.coordinates.clear()
             self.count += 1
             self.my_rectangles.append(self.canvas.create_rectangle(0, 0, 0, 0,fill='Black'))
-            self.canvas.coords(self.mouse, self.mouse_coordinates())
+            self.canvas.coords(self.apple, self.apple_coordinates())
             
     def move_rect(self, i):
         self.my_variables.append(self.canvas.coords(self.my_rectangles[i]))
@@ -181,7 +181,7 @@ class mov_snake():
             return False
         return True
     
-    def get_mouse(self):
+    def get_apple(self):
         dist = np.array(self.coordinates) - np.array(self.canvas.coords(self.snake))
         food_direction = np.zeros(4, dtype=int)
         if dist[0]>0:
@@ -199,7 +199,7 @@ class mov_snake():
         direction = {0:1, 1:2, 2:3, 3:0}
         for i in range(4):
             self.state[i] = not self.get_bound(direction[i])
-        self.state[4:] = self.get_mouse()
+        self.state[4:] = self.get_apple()
         self.state = self.state.reshape((1,-1))
         return self.state
             
